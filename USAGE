@@ -1,0 +1,90 @@
+Example usage:
+
+    <project ...>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.carlspring.maven</groupId>
+                    <artifactId>orientdb-maven-plugin</artifactId>
+                    <version>${version.orientdb.plugin}</version>
+
+                    <configuration>
+                        <!-- Optional, defaults to ${project.build.directory}/orientdb-->
+                        <orientdbHome>${project.build.directory}/orientdb</orientdbHome>
+                        <!-- Optional, defaults to 1527 -->
+                        <portBinary>2424</portBinary>
+                        <portHTTP>2480</portHTTP>
+                        <!-- Optional, the username to use when authenticating.-->
+                        <username>orientdb</username>
+                        <!-- Optional, the password to use when authenticating.-->
+                        <password>orientdb</password>
+                        <!-- Whether to bypass running OrientDB.-->
+                        <skip>false</skip>
+                    </configuration>
+
+                    <executions>
+                        <execution>
+                            <id>start-orientdb</id>
+                            <phase>test-compile</phase>
+                            <goals>
+                                <goal>start</goal>
+                            </goals>
+
+                        </execution>
+                    </executions>
+
+                </plugin>
+            </plugins>
+        </build>
+    </project>
+
+Usage of the run goal, configure the plugin outside of the "execution" scope as outlined above:
+
+    <project ...>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.carlspring.maven</groupId>
+                    <artifactId>orientdb-maven-plugin</artifactId>
+                    <version>${version.orientdb.plugin}</version>
+                    <configuration>
+                        <basedir>${project.build.directory}/orientdb</basedir>
+                        <port>1527</port>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>start-orientdb</id>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                                <goal>start</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>stop-orientdb</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>stop</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </project>
+
+    # mvn orientdb:run
+    Will start your OrientDB instance on port 1527 and block until you CTRL-C the process or use:
+
+    # mvn orientdb:stop
+    Sends a stop message to the configured server instance.
+
+The maven property orientdb.skip, if set to true, will prevent the plugin from launching OrientDB. It can also be set with
+    <plugin>
+        <groupId>org.carlspring.maven</groupId>
+        <artifactId>orientdb-maven-plugin</artifactId>
+        <version>${version.orientdb.plugin}</version>
+        <configuration>
+            <skip>true</skip>
+        </configuration>
+        ...
+     </plugin>

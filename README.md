@@ -1,0 +1,1 @@
+This plugin allows running OrientDB within Maven.
