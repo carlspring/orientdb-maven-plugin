@@ -21,8 +21,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import java.io.PrintWriter;
-import java.net.BindException;
+import com.orientechnologies.orient.server.OServerMain;
 
 /**
  * @author Martin Todorov
@@ -31,7 +30,7 @@ import java.net.BindException;
 public class StartOrientDBMojo
         extends AbstractOrientDBMojo
 {
-
+	
     /**
      * Whether to fail, if there's already something running on the port.
      */
@@ -48,6 +47,11 @@ public class StartOrientDBMojo
             getLog().info("Starting the OrientDB server ...");
 
             // TODO: Implement
+            
+            server = OServerMain.create();
+            server.startup();
+            server.activate();
+            
         }
         catch (Exception e)
         {

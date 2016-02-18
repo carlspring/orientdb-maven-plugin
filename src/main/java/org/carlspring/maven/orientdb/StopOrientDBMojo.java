@@ -45,6 +45,8 @@ public class StopOrientDBMojo
             throws MojoExecutionException, MojoFailureException
     {
         // TODO: Implement
+    	
+    	server.shutdown();
     }
 
     public boolean isFailIfNotRunning()

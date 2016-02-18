@@ -1,5 +1,8 @@
 package org.carlspring.maven.orientdb;
 
+import java.net.InetAddress;
+
+
 /**
  * Copyright 2016 Carlspring Consulting & Development Ltd.
  *
@@ -22,7 +25,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-import java.net.InetAddress;
+import com.orientechnologies.orient.server.OServer;
 
 /**
  * @author Martin Todorov (carlspring@gmail.com)
@@ -70,10 +73,13 @@ public abstract class AbstractOrientDBMojo
     @Parameter(property = "orientdb.skip")
     private boolean skip;
 
+    /**
+     * Shared {@link OServer} instance for all mojos.
+     */
+    protected OServer server;
 
     @Override
-    public void execute()
-            throws MojoExecutionException, MojoFailureException
+	public void execute() throws MojoExecutionException, MojoFailureException
     {
         if (skip)
         {
