@@ -21,31 +21,64 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * Runs the OrientDB server, blocking until the server no longer responds to pings.
+ * Runs the OrientDB server, blocking until the server no longer responds to
+ * pings.
  *
  * @author Martin Todorov (carlspring@gmail.com)
+ * @author Juan Ignacio Bais (bais.juan@gmail.com)
  */
 @Mojo(name = "run", requiresProject = false)
-public class RunOrientDBMojo
-        extends StartOrientDBMojo
+public class RunOrientDBMojo extends StartOrientDBMojo
 {
 
-    @Override
-    public void doExecute()
-            throws MojoExecutionException, MojoFailureException
-    {
-        try
-        {
-            super.doExecute();
+	// @Override
+	// public void doExecute()
+	// throws MojoExecutionException, MojoFailureException
+	// {
+	// try
+	// {
+	// super.doExecute();
+	//
+	// getLog().info("Blocking to wait for connections, use the orientdb:stop
+	// goal to kill.");
+	//
+	// // TODO: Implement.
+	// }
+	// catch (Exception e)
+	// {
+	// throw new MojoExecutionException(e.getMessage(), e);
+	// }
+	// }
 
-            getLog().info("Blocking to wait for connections, use the orientdb:stop goal to kill.");
+	@Override
+	public void doExecute() throws MojoExecutionException, MojoFailureException
+	{
+		try
+		{
+			super.doExecute();
+			getLog().info("Blocking to wait for connections, use the orientdb:stop goal to kill.");
 
-            // TODO: Implement.
-        }
-        catch (Exception e)
-        {
-            throw new MojoExecutionException(e.getMessage(), e);
-        }
-    }
+			while (true)
+			{
+				if (!server.isActive())
+				{
+					getLog().info("OrientDB server is not responding to pings, exiting...");
+					return;
+				}
+				try
+				{
+					Thread.sleep(1000);
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			throw new MojoExecutionException(e.getMessage(), e);
+		}
+	}
 
 }

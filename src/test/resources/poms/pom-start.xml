@@ -14,7 +14,10 @@
                 <version>${version.orientdb-maven-plugin}</version>
 
                 <configuration>
-
+					<binaryPort>2450</binaryPort>
+					<httpPort>2410</httpPort>
+					<username>root</username>
+					<password>hello</password>
                 </configuration>
 
                 <executions>

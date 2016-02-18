@@ -21,7 +21,6 @@ public class StartOrientDBMojoTest extends AbstractOrientDBMojoTest {
 	public void testMojo() throws MojoExecutionException, MojoFailureException, InterruptedException, SQLException {
 		startMojo.execute();
 		Assert.assertFalse(startMojo.isSkip());
-		Assert.assertFalse(isOrientUp(startMojo));
 
 		Thread.sleep(5000);
 

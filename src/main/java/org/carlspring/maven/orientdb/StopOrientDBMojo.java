@@ -21,42 +21,63 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import java.io.File;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 /**
  * @author Martin Todorov (carlspring@gmail.com)
+ * @author Juan Ignacio Bais (bais.juan@gmail.com)
  */
 @Mojo(name = "stop", requiresProject = false)
-public class StopOrientDBMojo
-        extends AbstractOrientDBMojo
+public class StopOrientDBMojo extends AbstractOrientDBMojo
 {
 
-    /**
-     * Whether to fail, if OrientDB is not running.
-     */
-    @Parameter(property = "orientdb.fail.if.already.running", defaultValue = "true")
-    boolean failIfNotRunning;
+	/**
+	 * Whether to fail, if OrientDB is not running.
+	 */
+	@Parameter(property = "orientdb.fail.if.already.running", defaultValue = "true")
+	boolean failIfNotRunning;
 
+	@Override
+	public void doExecute() throws MojoExecutionException, MojoFailureException
+	{
+		if (!server.isActive())
+		{
+			if (failIfNotRunning)
+			{
+				throw new MojoExecutionException("Failed to stop the OrientDB server, no server running!");
+			}
 
-    @Override
-    public void doExecute()
-            throws MojoExecutionException, MojoFailureException
-    {
-        // TODO: Implement
-    	
-    	server.shutdown();
-    }
+			getLog().error("OrientDB server was already stopped.");
+			return;
+		}
 
-    public boolean isFailIfNotRunning()
-    {
-        return failIfNotRunning;
-    }
+		server.shutdown();
 
-    public void setFailIfNotRunning(boolean failIfNotRunning)
-    {
-        this.failIfNotRunning = failIfNotRunning;
-    }
+		while (true)
+		{
+			if (!server.isActive())
+			{
+				getLog().info("OrientDB has stopped!");
+				break;
+			}
+			try
+			{
+				Thread.sleep(1000);
+			} 
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	public boolean isFailIfNotRunning()
+	{
+		return failIfNotRunning;
+	}
+
+	public void setFailIfNotRunning(boolean failIfNotRunning)
+	{
+		this.failIfNotRunning = failIfNotRunning;
+	}
 
 }

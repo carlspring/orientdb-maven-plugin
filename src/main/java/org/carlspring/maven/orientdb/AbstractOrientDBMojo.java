@@ -2,7 +2,6 @@ package org.carlspring.maven.orientdb;
 
 import java.net.InetAddress;
 
-
 /**
  * Copyright 2016 Carlspring Consulting & Development Ltd.
  *
@@ -29,43 +28,50 @@ import com.orientechnologies.orient.server.OServer;
 
 /**
  * @author Martin Todorov (carlspring@gmail.com)
+ * @author Juan Ignacio Bais (bais.juan@gmail.com)
  */
 public abstract class AbstractOrientDBMojo
         extends AbstractMojo
 {
 
     @Parameter(readonly = true, property = "project", required = true)
-    public MavenProject project;
+    protected MavenProject project;
 
     /**
      * The port to start OrientDB on.
      */
-    @Parameter(property = "orientdb.port")
-    private int port;
-
+//    @Parameter(property = "orientdb.binary.port")
+    protected int binaryPort;
+    
     /**
+     * The port to start OrientDB on.
+     */
+//    @Parameter(property = "orientdb.http.port")
+    protected int httpPort;
+
+	/**
      * The username to use when authenticating.
      */
-    @Parameter(property = "orientdb.username", defaultValue = "admin")
-    private String username;
+//    @Parameter(property = "orientdb.username", defaultValue = "admin")
+    protected String username;
 
     /**
      * The password to use when authenticating.
      */
-    @Parameter(property = "orientdb.password", defaultValue = "password")
-    private String password;
+//    @Parameter(property = "orientdb.password", defaultValue = "password")
+    protected String password;
 
     /**
      * The absolute class name of the driver.
      */
     @Parameter(property = "orientdb.driver")
-    private String driver;
+    protected String driver;
 
     /**
      * The URL to use when connecting.
      */
     @Parameter(property = "orientdb.url")
-    private String connectionURL;
+    protected String connectionURL;
 
     /**
      * Whether to bypass running orientdb.
@@ -76,7 +82,7 @@ public abstract class AbstractOrientDBMojo
     /**
      * Shared {@link OServer} instance for all mojos.
      */
-    protected OServer server;
+    protected static OServer server;
 
     @Override
 	public void execute() throws MojoExecutionException, MojoFailureException
@@ -127,14 +133,14 @@ public abstract class AbstractOrientDBMojo
         this.project = project;
     }
 
-    public int getPort()
+    public int getBinaryPort()
     {
-        return port;
+        return binaryPort;
     }
 
-    public void setPort(int port)
+    public void setBinaryPort(int port)
     {
-        this.port = port;
+        this.binaryPort = port;
     }
 
     public String getUsername()
@@ -186,5 +192,16 @@ public abstract class AbstractOrientDBMojo
     {
         this.skip = skip;
     }
+    
+
+    public int getHttpPort()
+	{
+		return httpPort;
+	}
+
+	public void setHttpPort(int httpPort)
+	{
+		this.httpPort = httpPort;
+	}
 
 }
