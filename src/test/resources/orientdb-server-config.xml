@@ -15,7 +15,7 @@
     </users>
     <properties>
         <entry value="C:/work/dev/orientechnologies/orientdb/releases/1.0rc1-SNAPSHOT/www/" name="orientdb.www.path"/>
-        <entry value="C:/work/dev/orientechnologies/orientdb/releases/1.0rc1-SNAPSHOT/config/orientdb-server-config.xml" name="orientdb.config.file"/>
+        <entry value="${basedir}/config/orientdb-server-config.xml" name="orientdb.config.file"/>
         <entry value="false" name="server.cache.staticResources"/>
         <entry value="info" name="log.console.level"/>
         <entry value="fine" name="log.file.level"/>
