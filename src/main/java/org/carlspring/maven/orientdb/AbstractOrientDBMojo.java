@@ -1,7 +1,5 @@
 package org.carlspring.maven.orientdb;
 
-import java.net.InetAddress;
-
 /**
  * Copyright 2016 Carlspring Consulting & Development Ltd.
  *
@@ -25,176 +23,161 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import com.orientechnologies.orient.server.OServer;
+import com.orientechnologies.orient.server.OServerMain;
 
 /**
  * @author Martin Todorov (carlspring@gmail.com)
  * @author Juan Ignacio Bais (bais.juan@gmail.com)
  */
-public abstract class AbstractOrientDBMojo
-        extends AbstractMojo
+public abstract class AbstractOrientDBMojo extends AbstractMojo
 {
 
-    @Parameter(readonly = true, property = "project", required = true)
-    protected MavenProject project;
+	@Parameter(readonly = true, property = "project", required = true)
+	protected MavenProject project;
 
-    /**
-     * The port to start OrientDB on.
-     */
-//    @Parameter(property = "orientdb.binary.port")
-    protected int binaryPort;
-    
-    /**
-     * The port to start OrientDB on.
-     */
-//    @Parameter(property = "orientdb.http.port")
-    protected int httpPort;
+	protected String configurationFile;
 
 	/**
-     * The username to use when authenticating.
-     */
-//    @Parameter(property = "orientdb.username", defaultValue = "admin")
-    protected String username;
+	 * The port to start OrientDB on.
+	 */
+	@Parameter(property = "orientdb.binary.port")
+	protected int binaryPort;
 
-    /**
-     * The password to use when authenticating.
-     */
-//    @Parameter(property = "orientdb.password", defaultValue = "password")
-    protected String password;
+	/**
+	 * The port to start OrientDB on.
+	 */
+	@Parameter(property = "orientdb.http.port")
+	protected int httpPort;
 
-    /**
-     * The absolute class name of the driver.
-     */
-    @Parameter(property = "orientdb.driver")
-    protected String driver;
+	/**
+	 * The username to use when authenticating.
+	 */
+	@Parameter(property = "orientdb.username", defaultValue = "admin")
+	protected String username;
 
-    /**
-     * The URL to use when connecting.
-     */
-    @Parameter(property = "orientdb.url")
-    protected String connectionURL;
+	/**
+	 * The password to use when authenticating.
+	 */
+	@Parameter(property = "orientdb.password", defaultValue = "password")
+	protected String password;
 
-    /**
-     * Whether to bypass running orientdb.
-     */
-    @Parameter(property = "orientdb.skip")
-    private boolean skip;
+	/**
+	 * The absolute class name of the driver.
+	 */
+	@Parameter(property = "orientdb.driver")
+	protected String driver;
 
-    /**
-     * Shared {@link OServer} instance for all mojos.
-     */
-    protected static OServer server;
+	/**
+	 * Whether to bypass running orientdb.
+	 */
+	@Parameter(property = "orientdb.skip")
+	private boolean skip;
 
-    @Override
+	/**
+	 * Shared {@link OServer} instance for all mojos.
+	 */
+	protected OServer server;
+
+	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException
-    {
-        if (skip)
-        {
-            getLog().info("Skipping OrienDB execution.");
-            return;
-        }
+	{
+		if (skip)
+		{
+			getLog().info("Skipping OrienDB execution.");
+			return;
+		}
 
-        setup();
+		setup();
 
-        doExecute();
-    }
+		doExecute();
+	}
 
-    protected void setup()
-            throws MojoExecutionException
-    {
+	protected void setup() throws MojoExecutionException
+	{
 
-        try
-        {
-            final InetAddress localHost = InetAddress.getByAddress("localhost", new byte[]{ 127, 0, 0, 1 });
+		try
+		{
+			server = OServerMain.server();
+			if (server == null) 
+			{
+				server = OServerMain.create();
+			}
+		}
+		catch (Exception e)
+		{
+			throw new MojoExecutionException(e.getMessage(), e);
+		}
+	}
 
-            getLog().info("Initializing OrientDB for " + localHost);
+	/**
+	 * Implement mojo logic here.
+	 *
+	 * @throws MojoExecutionException
+	 * @throws MojoFailureException
+	 */
+	protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
-        }
-        catch (Exception e)
-        {
-            throw new MojoExecutionException(e.getMessage(), e);
-        }
-    }
+	public MavenProject getProject()
+	{
+		return project;
+	}
 
-    /**
-     * Implement mojo logic here.
-     *
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
-     */
-    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
+	public void setProject(MavenProject project)
+	{
+		this.project = project;
+	}
 
-    public MavenProject getProject()
-    {
-        return project;
-    }
+	public int getBinaryPort()
+	{
+		return binaryPort;
+	}
 
-    public void setProject(MavenProject project)
-    {
-        this.project = project;
-    }
+	public void setBinaryPort(int port)
+	{
+		this.binaryPort = port;
+	}
 
-    public int getBinaryPort()
-    {
-        return binaryPort;
-    }
+	public String getUsername()
+	{
+		return username;
+	}
 
-    public void setBinaryPort(int port)
-    {
-        this.binaryPort = port;
-    }
+	public void setUsername(String username)
+	{
+		this.username = username;
+	}
 
-    public String getUsername()
-    {
-        return username;
-    }
+	public String getPassword()
+	{
+		return password;
+	}
 
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
 
-    public String getPassword()
-    {
-        return password;
-    }
+	public String getDriver()
+	{
+		return driver;
+	}
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
+	public void setDriver(String driver)
+	{
+		this.driver = driver;
+	}
 
-    public String getConnectionURL()
-    {
-        return connectionURL;
-    }
+	public boolean isSkip()
+	{
+		return skip;
+	}
 
-    public void setConnectionURL(String connectionURL)
-    {
-        this.connectionURL = connectionURL;
-    }
+	public void setSkip(boolean skip)
+	{
+		this.skip = skip;
+	}
 
-    public String getDriver()
-    {
-        return driver;
-    }
-
-    public void setDriver(String driver)
-    {
-        this.driver = driver;
-    }
-
-    public boolean isSkip()
-    {
-        return skip;
-    }
-
-    public void setSkip(boolean skip)
-    {
-        this.skip = skip;
-    }
-    
-
-    public int getHttpPort()
+	public int getHttpPort()
 	{
 		return httpPort;
 	}
@@ -202,6 +185,16 @@ public abstract class AbstractOrientDBMojo
 	public void setHttpPort(int httpPort)
 	{
 		this.httpPort = httpPort;
+	}
+
+	public String getConfigurationPath()
+	{
+		return configurationFile;
+	}
+
+	public void setConfigurationPath(String configurationPath)
+	{
+		this.configurationFile = configurationPath;
 	}
 
 }
