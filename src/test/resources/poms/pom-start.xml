@@ -22,7 +22,7 @@
 				<version>${version.orientdb-maven-plugin}</version>
 
 				<configuration>
-					<configurationFile>/src/test/resources/orientdb-server-config.xml</configurationFile>
+					<configurationFile>${basedir}/src/test/resources/orientdb-server-config.xml</configurationFile>
 				</configuration>
 
 				<executions>
