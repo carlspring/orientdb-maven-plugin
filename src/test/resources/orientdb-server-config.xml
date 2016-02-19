@@ -11,7 +11,7 @@
         </listeners>
     </network>
     <users>
-        <user resources="*" password="${password}" name="{username}"/>
+        <user resources="*" password="${password}" name="${username}"/>
     </users>
     <properties>
         <entry value="C:/work/dev/orientechnologies/orientdb/releases/1.0rc1-SNAPSHOT/www/" name="orientdb.www.path"/>

@@ -98,7 +98,7 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 		try
 		{
 			server = OServerMain.server();
-			if (server == null) 
+			if (server == null)
 			{
 				server = OServerMain.create();
 			}
