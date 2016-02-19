@@ -6,15 +6,6 @@
 	<artifactId>dummy-project</artifactId>
 	<version>0.1-SNAPSHOT</version>
 
-
-	<properties>
-		<binary.port>2414-2420</binary.port>
-		<http.port>2470-2480</http.port>
-		<username>root</username>
-		<password>hello</password>
-	</properties>
-
-
 	<build>
 
 		<resources>
