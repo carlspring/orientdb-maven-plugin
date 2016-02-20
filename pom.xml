@@ -42,9 +42,7 @@
 		<version.orientdb>2.2.0-beta</version.orientdb>
 		<version.maven>3.0.5</version.maven>
 		<version.orientdb-maven-plugin>${project.version}</version.orientdb-maven-plugin>
-
 	</properties>
-
 
 	<build>
 		<resources>
@@ -227,6 +225,58 @@
 	</distributionManagement>
 
 	<profiles>
+		<profile>
+			<id>run-it-tests</id>
+			<activation>
+				<!--
+				<property>
+					<name>!skipTests</name>
+				</property>
+				-->
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<build>
+				<plugins>
+					<!-- This plugin needs to be defined first, as the execution of the Jetty Maven plugin
+                         which shuts down Jetty overlaps with this and shuts it down before the tests are done.-->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-invoker-plugin</artifactId>
+						<version>2.0.0</version>
+
+						<configuration>
+							<debug>true</debug>
+							<preBuildHookScript>clean</preBuildHookScript>
+							<postBuildHookScript>verify</postBuildHookScript>
+							<settingsFile>src/it/settings.xml</settingsFile>
+							<cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+							<addTestClassPath>true</addTestClassPath>
+						</configuration>
+
+						<executions>
+							<execution>
+								<id>invoker-integration-tests</id>
+								<goals>
+									<goal>run</goal>
+								</goals>
+
+								<phase>test</phase>
+							</execution>
+						</executions>
+
+						<dependencies>
+							<dependency>
+								<groupId>org.codehaus.groovy</groupId>
+								<artifactId>groovy-all</artifactId>
+								<version>2.4.5</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
 		<profile>
 			<id>gpg</id>
 

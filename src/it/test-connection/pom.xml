@@ -1,0 +1,9 @@
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.carlspring.maven.orientdb</groupId>
+    <artifactId>test-project</artifactId>
+    <version>1.0.1</version>
+
+</project>
