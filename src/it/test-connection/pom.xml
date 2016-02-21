@@ -1,9 +1,44 @@
 <project>
 
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.carlspring.maven.orientdb</groupId>
-    <artifactId>test-project</artifactId>
-    <version>1.0.1</version>
+	<groupId>org.carlspring.maven.orientdb</groupId>
+	<artifactId>test-project</artifactId>
+	<version>1.0.1</version>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.carlspring.maven</groupId>
+				<artifactId>orientdb-maven-plugin</artifactId>
+				<version>@project.version@</version>
+
+				<executions>
+					<execution>
+						<id>orientdb-start</id>
+
+						<phase>test-compile</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+
+						<configuration>
+							<configurationFile>orientdb-server-config.xml</configurationFile>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>orientdb-stop</id>
+
+						<phase>test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

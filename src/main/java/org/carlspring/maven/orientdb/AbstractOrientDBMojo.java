@@ -35,6 +35,7 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 	@Parameter(readonly = true, property = "project", required = true)
 	protected MavenProject project;
 
+	@Parameter(property = "orientdb.cfg")
 	protected String configurationFile;
 
 	/**
