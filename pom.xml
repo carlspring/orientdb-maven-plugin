@@ -152,7 +152,6 @@
 	</build>
 
 	<dependencies>
-				
 		<dependency>
 			<groupId>com.orientechnologies</groupId>
 			<artifactId>orientdb-graphdb</artifactId>
@@ -168,12 +167,12 @@
 			<artifactId>blueprints-core</artifactId>
 			<version>2.6.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.orientechnologies</groupId>
 			<artifactId>orientdb-server</artifactId>
 			<version>${version.orientdb}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-artifact</artifactId>
@@ -264,12 +263,13 @@
 						<artifactId>maven-invoker-plugin</artifactId>
 						<version>1.8</version>
 						<configuration>
-							<!--<debug>true</debug> -->
+							<debug>true</debug>
 							<preBuildHookScript>clean</preBuildHookScript>
 							<postBuildHookScript>verify</postBuildHookScript>
 							<!--<localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath> -->
-							<!--<settingsFile>src/it/settings.xml</settingsFile> -->
+							<settingsFile>src/it/settings.xml</settingsFile>
 							<cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+							<addTestClassPath>true</addTestClassPath>
 						</configuration>
 						<executions>
 							<execution>
@@ -287,6 +287,27 @@
 								<groupId>org.codehaus.groovy</groupId>
 								<artifactId>groovy-all</artifactId>
 								<version>2.4.5</version>
+							</dependency>
+
+							<dependency>
+								<groupId>com.orientechnologies</groupId>
+								<artifactId>orientdb-graphdb</artifactId>
+								<version>${version.orientdb}</version>
+							</dependency>
+							<dependency>
+								<groupId>com.orientechnologies</groupId>
+								<artifactId>orientdb-core</artifactId>
+								<version>${version.orientdb}</version>
+							</dependency>
+							<dependency>
+								<groupId>com.tinkerpop.blueprints</groupId>
+								<artifactId>blueprints-core</artifactId>
+								<version>2.6.0</version>
+							</dependency>
+							<dependency>
+								<groupId>com.orientechnologies</groupId>
+								<artifactId>orientdb-server</artifactId>
+								<version>${version.orientdb}</version>
 							</dependency>
 						</dependencies>
 					</plugin>
