@@ -6,8 +6,8 @@
             <protocol implementation="com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpDb" name="http"/>
         </protocols>
         <listeners>
-            <listener protocol="binary" socket="default" port-range="${binary.port}" ip-address="0.0.0.0"/>
-            <listener protocol="http" socket="default" port-range="${http.port}" ip-address="0.0.0.0"/>
+            <listener protocol="binary" socket="default" port-range="${binary.port}" ip-address="localhost"/>
+            <listener protocol="http" socket="default" port-range="${http.port}" ip-address="localhost"/>
         </listeners>
     </network>
     <users>
