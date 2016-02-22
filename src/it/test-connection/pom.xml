@@ -6,11 +6,6 @@
 	<artifactId>test-project</artifactId>
 	<version>1.0.1</version>
 
-	<properties>
-		<version.orientdb>2.2.0-beta</version.orientdb>
-		<binary.port>2414-2420</binary.port>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.carlspring.maven</groupId>
@@ -35,7 +30,7 @@
 
 		<plugins>
 			<plugin>
-				<groupId>org.carlspring.maven</groupId>
+				<groupId>org.carlspring.maven</groupId>	
 				<artifactId>orientdb-maven-plugin</artifactId>
 				<version>@project.version@</version>
 
@@ -50,6 +45,10 @@
 
 						<configuration>
 							<configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml</configurationFile>
+							<binaryPort>3015</binaryPort>
+							<httpPort>3081</httpPort>
+							<username>rootoo</username>
+							<password>hello</password>
 						</configuration>
 					</execution>
 

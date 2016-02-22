@@ -31,25 +31,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 public class RunOrientDBMojo extends StartOrientDBMojo
 {
 
-	// @Override
-	// public void doExecute()
-	// throws MojoExecutionException, MojoFailureException
-	// {
-	// try
-	// {
-	// super.doExecute();
-	//
-	// getLog().info("Blocking to wait for connections, use the orientdb:stop
-	// goal to kill.");
-	//
-	// // TODO: Implement.
-	// }
-	// catch (Exception e)
-	// {
-	// throw new MojoExecutionException(e.getMessage(), e);
-	// }
-	// }
-
 	@Override
 	public void doExecute() throws MojoExecutionException, MojoFailureException
 	{

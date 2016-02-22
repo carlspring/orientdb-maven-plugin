@@ -20,7 +20,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
 
 import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
@@ -31,9 +30,6 @@ import com.orientechnologies.orient.server.OServerMain;
  */
 public abstract class AbstractOrientDBMojo extends AbstractMojo
 {
-
-	@Parameter(readonly = true, property = "project", required = true)
-	protected MavenProject project;
 
 	@Parameter(property = "orientdb.cfg")
 	protected String configurationFile;
@@ -53,20 +49,14 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 	/**
 	 * The username to use when authenticating.
 	 */
-	@Parameter(property = "orientdb.username", defaultValue = "admin")
+	@Parameter(property = "orientdb.username")
 	protected String username;
 
 	/**
 	 * The password to use when authenticating.
 	 */
-	@Parameter(property = "orientdb.password", defaultValue = "password")
+	@Parameter(property = "orientdb.password")
 	protected String password;
-
-	/**
-	 * The absolute class name of the driver.
-	 */
-	@Parameter(property = "orientdb.driver")
-	protected String driver;
 
 	/**
 	 * Whether to bypass running orientdb.
@@ -118,16 +108,6 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 	 */
 	protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
-	public MavenProject getProject()
-	{
-		return project;
-	}
-
-	public void setProject(MavenProject project)
-	{
-		this.project = project;
-	}
-
 	public int getBinaryPort()
 	{
 		return binaryPort;
@@ -156,16 +136,6 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 	public void setPassword(String password)
 	{
 		this.password = password;
-	}
-
-	public String getDriver()
-	{
-		return driver;
-	}
-
-	public void setDriver(String driver)
-	{
-		this.driver = driver;
 	}
 
 	public boolean isSkip()
