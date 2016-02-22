@@ -49,7 +49,7 @@
 						</goals>
 
 						<configuration>
-							<configurationFile>@project.build.directory@/it/test-connection/orientdb-server-config.xml</configurationFile>
+							<configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml</configurationFile>
 						</configuration>
 					</execution>
 
