@@ -1,3 +1,21 @@
+orientdb-maven-plugin configuration
+----------------------------
+
+The plugin allows five parameters as configuration: 
+ 1. httpPort: port to listen http
+ 2. binaryPort: port to listen binary
+ 3. username: credential to connect to the database
+ 4. password: credential to connect to the database
+ 5. configurationFile: path to a orientdb-server-config.xml
+ 6. Skip
+ 
+If the configuration file is not provided, the configuration will be generated via a template String with
+placeholders for httpPort, binaryPort, username, and password. The default value for this fields is null and 0
+so they should be provided via configuration.
+
+If a configuration file is provided, that file will be used as configuration, but if any other of the fields
+is provided in the configuration too, the value will be override. 
+
 Example usage:
 
     <project ...>
@@ -9,16 +27,17 @@ Example usage:
                     <version>${version.orientdb.plugin}</version>
 
                     <configuration>
-                        <!-- Optional, defaults to ${project.build.directory}/orientdb-->
-                        <orientdbHome>${project.build.directory}/orientdb</orientdbHome>
-                        <!-- Optional, defaults to 1527 -->
-                        <portBinary>2424</portBinary>
-                        <portHTTP>2480</portHTTP>
-                        <!-- Optional, the username to use when authenticating.-->
-                        <username>orientdb</username>
-                        <!-- Optional, the password to use when authenticating.-->
-                        <password>orientdb</password>
-                        <!-- Whether to bypass running OrientDB.-->
+                    	<!-- Optional, defaults is null -->
+                    	<configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml</configurationFile>
+                    	<!-- Optional, defaults to 0 -->
+					 	<binaryPort>3015</binaryPort>
+					 	<!-- Optional, defaults to 0 -->
+						<httpPort>3081</httpPort>
+						<!-- Optional, defaults to null -->
+						<username>rootoo</username>
+						<!-- Optional, defaults to null-->
+						<password>hello</password>
+                   		<!-- Whether to bypass running OrientDB.-->
                         <skip>false</skip>
                     </configuration>
 
@@ -29,7 +48,6 @@ Example usage:
                             <goals>
                                 <goal>start</goal>
                             </goals>
-
                         </execution>
                     </executions>
 
@@ -48,15 +66,25 @@ Usage of the run goal, configure the plugin outside of the "execution" scope as 
                     <artifactId>orientdb-maven-plugin</artifactId>
                     <version>${version.orientdb.plugin}</version>
                     <configuration>
-                        <basedir>${project.build.directory}/orientdb</basedir>
-                        <port>1527</port>
+						<!-- Optional, defaults is null -->
+                    	<configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml</configurationFile>
+                    	<!-- Optional, defaults to 0 -->
+					 	<binaryPort>3015</binaryPort>
+					 	<!-- Optional, defaults to 0 -->
+						<httpPort>3081</httpPort>
+						<!-- Optional, defaults to null -->
+						<username>rootoo</username>
+						<!-- Optional, defaults to null-->
+						<password>hello</password>
+                   		<!-- Whether to bypass running OrientDB.-->
+                        <skip>false</skip>
                     </configuration>
                     <executions>
                         <execution>
                             <id>start-orientdb</id>
                             <phase>pre-integration-test</phase>
                             <goals>
-                                <goal>start</goal>
+                                <goal>run</goal>
                             </goals>
                         </execution>
                         <execution>
@@ -77,14 +105,3 @@ Usage of the run goal, configure the plugin outside of the "execution" scope as 
 
     # mvn orientdb:stop
     Sends a stop message to the configured server instance.
-
-The maven property orientdb.skip, if set to true, will prevent the plugin from launching OrientDB. It can also be set with
-    <plugin>
-        <groupId>org.carlspring.maven</groupId>
-        <artifactId>orientdb-maven-plugin</artifactId>
-        <version>${version.orientdb.plugin}</version>
-        <configuration>
-            <skip>true</skip>
-        </configuration>
-        ...
-     </plugin>
