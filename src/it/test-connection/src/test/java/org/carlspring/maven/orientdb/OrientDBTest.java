@@ -3,7 +3,7 @@ package org.carlspring.maven.orientdb;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.maven.plugins.annotations.Parameter;
+
 import org.junit.Assert;
 import org.junit.Test;
 import com.orientechnologies.orient.client.remote.OServerAdmin;

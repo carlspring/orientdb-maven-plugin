@@ -1,6 +1,7 @@
 package org.carlspring.maven.orientdb;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.BindException;
 
 /**
@@ -62,27 +63,7 @@ public class StartOrientDBMojo extends AbstractOrientDBMojo
 					server.startup(config);
 				} else
 				{
-					OServerConfigurationManager cfgManager = new OServerConfigurationManager(
-							new File(configurationFile));
-					OServerConfiguration configuration = cfgManager.getConfiguration();
-
-					for (OServerNetworkListenerConfiguration listener : configuration.network.listeners)
-					{
-						if ("binary".equals(listener.protocol) && binaryPort != 0)
-						{
-							listener.portRange = String.valueOf(binaryPort) + "-" + String.valueOf(binaryPort) + 6;
-						} else if ("http".equals(listener.protocol) && httpPort != 0)
-						{
-							listener.portRange = String.valueOf(httpPort) + "-" + String.valueOf(httpPort) + 10;
-						}
-					}
-
-					if (username != null && password != null)
-					{
-						configuration.users = new OServerUserConfiguration[]
-						{ new OServerUserConfiguration(username, password, "*") };
-					}
-
+					OServerConfiguration configuration = updateConfiguration();
 					server.startup(configuration);
 				}
 				server.activate();
@@ -137,16 +118,6 @@ public class StartOrientDBMojo extends AbstractOrientDBMojo
 		}
 	}
 
-	private String doReplacements()
-	{
-		serverConfigTemplate = serverConfigTemplate.replace(BINARY_PORT_TOKEN,
-				String.valueOf(binaryPort) + "-" + String.valueOf(binaryPort) + 6);
-		serverConfigTemplate = serverConfigTemplate.replace(HTTP_PORT_TOKEN,
-				String.valueOf(httpPort) + "-" + String.valueOf(binaryPort) + 10);
-		serverConfigTemplate = serverConfigTemplate.replace(USERNAME_TOKEN, username);
-		return serverConfigTemplate.replace(PASSWORD_TOKEN, password);
-	}
-
 	public boolean isFailIfAlreadyRunning()
 	{
 		return failIfAlreadyRunning;
@@ -155,6 +126,40 @@ public class StartOrientDBMojo extends AbstractOrientDBMojo
 	public void setFailIfAlreadyRunning(boolean failIfAlreadyRunning)
 	{
 		this.failIfAlreadyRunning = failIfAlreadyRunning;
+	}
+
+	private OServerConfiguration updateConfiguration() throws IOException
+	{
+		OServerConfigurationManager cfgManager = new OServerConfigurationManager(new File(configurationFile));
+		OServerConfiguration configuration = cfgManager.getConfiguration();
+
+		for (OServerNetworkListenerConfiguration listener : configuration.network.listeners)
+		{
+			if ("binary".equals(listener.protocol) && binaryPort != 0)
+			{
+				listener.portRange = String.valueOf(binaryPort) + "-" + String.valueOf(binaryPort) + 6;
+			} else if ("http".equals(listener.protocol) && httpPort != 0)
+			{
+				listener.portRange = String.valueOf(httpPort) + "-" + String.valueOf(httpPort) + 10;
+			}
+		}
+
+		if (username != null && password != null)
+		{
+			configuration.users = new OServerUserConfiguration[]
+			{ new OServerUserConfiguration(username, password, "*") };
+		}
+		return configuration;
+	}
+
+	private String doReplacements()
+	{
+		serverConfigTemplate = serverConfigTemplate.replace(BINARY_PORT_TOKEN,
+				String.valueOf(binaryPort) + "-" + String.valueOf(binaryPort) + 6);
+		serverConfigTemplate = serverConfigTemplate.replace(HTTP_PORT_TOKEN,
+				String.valueOf(httpPort) + "-" + String.valueOf(binaryPort) + 10);
+		serverConfigTemplate = serverConfigTemplate.replace(USERNAME_TOKEN, username);
+		return serverConfigTemplate.replace(PASSWORD_TOKEN, password);
 	}
 
 	private static String serverConfigTemplate = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
