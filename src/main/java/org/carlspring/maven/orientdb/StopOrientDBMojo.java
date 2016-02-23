@@ -1,5 +1,7 @@
 package org.carlspring.maven.orientdb;
 
+import java.io.IOException;
+
 /**
  * Copyright 2016 Carlspring Consulting & Development Ltd.
  *
@@ -21,6 +23,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import com.orientechnologies.orient.server.OServerShutdownMain;
+
 /**
  * @author Martin Todorov (carlspring@gmail.com)
  * @author Juan Ignacio Bais (bais.juan@gmail.com)
@@ -38,36 +42,22 @@ public class StopOrientDBMojo extends AbstractOrientDBMojo
 	@Override
 	public void doExecute() throws MojoExecutionException, MojoFailureException
 	{
-		if (!server.isActive())
+		OServerShutdownMain shutdownMain = new OServerShutdownMain(ipAddress, String.valueOf(binaryPort), username,
+				password);
+		try
+		{
+			shutdownMain.connect(5000);
+		}
+		catch (IOException e)
 		{
 			if (failIfNotRunning)
 			{
 				throw new MojoExecutionException("Failed to stop the OrientDB server, no server running!");
 			}
-
 			getLog().error("OrientDB server was already stopped.");
 			return;
 		}
-
-		server.shutdown();
-
-		while (true)
-		{
-			if (!server.isActive())
-			{
-				getLog().info("OrientDB has stopped!");
-				break;
-			}
-			try
-			{
-				Thread.sleep(1000);
-			} 
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-		}
-
+		getLog().info("OrientDB has stopped!");
 	}
 
 	public boolean isFailIfNotRunning()

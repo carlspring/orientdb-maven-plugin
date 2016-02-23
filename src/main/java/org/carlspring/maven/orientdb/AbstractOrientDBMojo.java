@@ -35,27 +35,33 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 	protected String configurationFile;
 
 	/**
+	 * The ip address to start OrientDB on.
+	 */
+	@Parameter(property = "orientdb.address", defaultValue="localhost")
+	protected String ipAddress;
+
+	/**
 	 * The port to start OrientDB on.
 	 */
-	@Parameter(property = "orientdb.binary.port")
+	@Parameter(property = "orientdb.binary.port", defaultValue="3015")
 	protected int binaryPort;
 
 	/**
 	 * The port to start OrientDB on.
 	 */
-	@Parameter(property = "orientdb.http.port")
+	@Parameter(property = "orientdb.http.port", defaultValue="3081")
 	protected int httpPort;
 
 	/**
 	 * The username to use when authenticating.
 	 */
-	@Parameter(property = "orientdb.username")
+	@Parameter(property = "orientdb.username", defaultValue="root")
 	protected String username;
 
 	/**
 	 * The password to use when authenticating.
 	 */
-	@Parameter(property = "orientdb.password")
+	@Parameter(property = "orientdb.password", defaultValue="hello")
 	protected String password;
 
 	/**
@@ -85,7 +91,6 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 
 	protected void setup() throws MojoExecutionException
 	{
-
 		try
 		{
 			server = OServerMain.server();
@@ -156,6 +161,16 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 	public void setHttpPort(int httpPort)
 	{
 		this.httpPort = httpPort;
+	}
+	
+	public String getIpAddress()
+	{
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress)
+	{
+		this.ipAddress = ipAddress;
 	}
 
 	public String getConfigurationPath()
