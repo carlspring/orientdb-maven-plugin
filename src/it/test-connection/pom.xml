@@ -28,11 +28,11 @@
             </resource>
         </resources>
 
-        <plugins>
-            <plugin>
-                <groupId>org.carlspring.maven</groupId>
-                <artifactId>orientdb-maven-plugin</artifactId>
-                <version>@project.version@</version>
+		<plugins>
+			<plugin>
+				<groupId>org.carlspring.maven</groupId>
+				<artifactId>orientdb-maven-plugin</artifactId>
+				<version>@project.version@</version>
 
                 <executions>
                     <execution>
@@ -42,16 +42,15 @@
                         <goals>
                             <goal>start</goal>
                         </goals>
-
-                        <configuration>
-                            <configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml
-                            </configurationFile>
-                            <binaryPort>3015</binaryPort>
-                            <httpPort>3081</httpPort>
-                            <username>rootoo</username>
-                            <password>hello</password>
-                        </configuration>
-                    </execution>
+						<configuration>
+							<configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml</configurationFile>
+							<ipAddress>localhost</ipAddress>
+							<binaryPort>3015</binaryPort>
+							<httpPort>3081</httpPort>
+							<username>root</username>
+							<password>hello</password>
+						</configuration>
+					</execution>
 
                     <execution>
                         <id>orientdb-stop</id>

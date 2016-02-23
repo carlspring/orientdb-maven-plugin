@@ -31,141 +31,156 @@ import com.orientechnologies.orient.server.OServerMain;
 public abstract class AbstractOrientDBMojo extends AbstractMojo
 {
 
-    @Parameter(property = "orientdb.cfg")
-    protected String configurationFile;
+	@Parameter(property = "orientdb.cfg")
+	protected String configurationFile;
 
-    /**
-     * The port to start OrientDB on.
-     */
-    @Parameter(property = "orientdb.binary.port")
-    protected int binaryPort;
+	/**
+	 * The ip address to start OrientDB on.
+	 */
+	@Parameter(property = "orientdb.address", defaultValue="localhost")
+	protected String ipAddress;
 
-    /**
-     * The port to start OrientDB on.
-     */
-    @Parameter(property = "orientdb.http.port")
-    protected int httpPort;
+	/**
+	 * The port to start OrientDB on.
+	 */
+	@Parameter(property = "orientdb.binary.port", defaultValue="3015")
+	protected int binaryPort;
 
-    /**
-     * The username to use when authenticating.
-     */
-    @Parameter(property = "orientdb.username")
-    protected String username;
+	/**
+	 * The port to start OrientDB on.
+	 */
+	@Parameter(property = "orientdb.http.port", defaultValue="3081")
+	protected int httpPort;
 
-    /**
-     * The password to use when authenticating.
-     */
-    @Parameter(property = "orientdb.password")
-    protected String password;
+	/**
+	 * The username to use when authenticating.
+	 */
+	@Parameter(property = "orientdb.username", defaultValue="root")
+	protected String username;
 
-    /**
-     * Whether to bypass running orientdb.
-     */
-    @Parameter(property = "orientdb.skip")
-    private boolean skip;
+	/**
+	 * The password to use when authenticating.
+	 */
+	@Parameter(property = "orientdb.password", defaultValue="hello")
+	protected String password;
 
-    /**
-     * Shared {@link OServer} instance for all mojos.
-     */
-    protected OServer server;
+	/**
+	 * Whether to bypass running orientdb.
+	 */
+	@Parameter(property = "orientdb.skip")
+	private boolean skip;
 
-    @Override
-    public void execute() throws MojoExecutionException, MojoFailureException
-    {
-        if (skip)
-        {
-            getLog().info("Skipping OrienDB execution.");
-            return;
-        }
+	/**
+	 * Shared {@link OServer} instance for all mojos.
+	 */
+	protected OServer server;
 
-        setup();
+	@Override
+	public void execute() throws MojoExecutionException, MojoFailureException
+	{
+		if (skip)
+		{
+			getLog().info("Skipping OrienDB execution.");
+			return;
+		}
 
-        doExecute();
-    }
+		setup();
 
-    protected void setup() throws MojoExecutionException
-    {
+		doExecute();
+	}
 
-        try
-        {
-            server = OServerMain.server();
-            if (server == null)
-            {
-                server = OServerMain.create();
-            }
-        }
-        catch (Exception e)
-        {
-            throw new MojoExecutionException(e.getMessage(), e);
-        }
-    }
+	protected void setup() throws MojoExecutionException
+	{
+		try
+		{
+			server = OServerMain.server();
+			if (server == null)
+			{
+				server = OServerMain.create();
+			}
+		}
+		catch (Exception e)
+		{
+			throw new MojoExecutionException(e.getMessage(), e);
+		}
+	}
 
-    /**
-     * Implement mojo logic here.
-     *
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
-     */
-    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
+	/**
+	 * Implement mojo logic here.
+	 *
+	 * @throws MojoExecutionException
+	 * @throws MojoFailureException
+	 */
+	protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
-    public int getBinaryPort()
-    {
-        return binaryPort;
-    }
+	public int getBinaryPort()
+	{
+		return binaryPort;
+	}
 
-    public void setBinaryPort(int port)
-    {
-        this.binaryPort = port;
-    }
+	public void setBinaryPort(int port)
+	{
+		this.binaryPort = port;
+	}
 
-    public String getUsername()
-    {
-        return username;
-    }
+	public String getUsername()
+	{
+		return username;
+	}
 
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
+	public void setUsername(String username)
+	{
+		this.username = username;
+	}
 
-    public String getPassword()
-    {
-        return password;
-    }
+	public String getPassword()
+	{
+		return password;
+	}
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
 
-    public boolean isSkip()
-    {
-        return skip;
-    }
+	public boolean isSkip()
+	{
+		return skip;
+	}
 
-    public void setSkip(boolean skip)
-    {
-        this.skip = skip;
-    }
+	public void setSkip(boolean skip)
+	{
+		this.skip = skip;
+	}
 
-    public int getHttpPort()
-    {
-        return httpPort;
-    }
+	public int getHttpPort()
+	{
+		return httpPort;
+	}
 
-    public void setHttpPort(int httpPort)
-    {
-        this.httpPort = httpPort;
-    }
+	public void setHttpPort(int httpPort)
+	{
+		this.httpPort = httpPort;
+	}
+	
+	public String getIpAddress()
+	{
+		return ipAddress;
+	}
 
-    public String getConfigurationPath()
-    {
-        return configurationFile;
-    }
+	public void setIpAddress(String ipAddress)
+	{
+		this.ipAddress = ipAddress;
+	}
 
-    public void setConfigurationPath(String configurationPath)
-    {
-        this.configurationFile = configurationPath;
-    }
+	public String getConfigurationPath()
+	{
+		return configurationFile;
+	}
+
+	public void setConfigurationPath(String configurationPath)
+	{
+		this.configurationFile = configurationPath;
+	}
 
 }

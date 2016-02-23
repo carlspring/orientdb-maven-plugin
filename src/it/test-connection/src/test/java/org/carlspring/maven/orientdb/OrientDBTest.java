@@ -14,7 +14,7 @@ public class OrientDBTest
 	@Test
 	public void connectionTest() throws IOException
 	{
-		OServerAdmin serverAdmin = new OServerAdmin("remote:localhost:3015").connect("rootoo", "hello");
+		OServerAdmin serverAdmin = new OServerAdmin("remote:localhost:3015").connect("root", "hello");
 		System.out.println("Succesfully established a test connection to the database!");
 	}
 
