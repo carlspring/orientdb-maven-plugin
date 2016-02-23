@@ -10,11 +10,12 @@ import com.orientechnologies.orient.client.remote.OServerAdmin;
 
 public class OrientDBTest
 {
+
 	@Test
 	public void connectionTest() throws IOException
 	{
 		OServerAdmin serverAdmin = new OServerAdmin("remote:localhost:3015").connect("rootoo", "hello");
-		System.out.println("Succesfully connected to database");
+		System.out.println("Succesfully established a test connection to the database!");
 	}
 
 }

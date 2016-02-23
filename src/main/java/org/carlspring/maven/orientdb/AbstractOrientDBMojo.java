@@ -2,13 +2,13 @@ package org.carlspring.maven.orientdb;
 
 /**
  * Copyright 2016 Carlspring Consulting & Development Ltd.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,141 +31,141 @@ import com.orientechnologies.orient.server.OServerMain;
 public abstract class AbstractOrientDBMojo extends AbstractMojo
 {
 
-	@Parameter(property = "orientdb.cfg")
-	protected String configurationFile;
+    @Parameter(property = "orientdb.cfg")
+    protected String configurationFile;
 
-	/**
-	 * The port to start OrientDB on.
-	 */
-	@Parameter(property = "orientdb.binary.port")
-	protected int binaryPort;
+    /**
+     * The port to start OrientDB on.
+     */
+    @Parameter(property = "orientdb.binary.port")
+    protected int binaryPort;
 
-	/**
-	 * The port to start OrientDB on.
-	 */
-	@Parameter(property = "orientdb.http.port")
-	protected int httpPort;
+    /**
+     * The port to start OrientDB on.
+     */
+    @Parameter(property = "orientdb.http.port")
+    protected int httpPort;
 
-	/**
-	 * The username to use when authenticating.
-	 */
-	@Parameter(property = "orientdb.username")
-	protected String username;
+    /**
+     * The username to use when authenticating.
+     */
+    @Parameter(property = "orientdb.username")
+    protected String username;
 
-	/**
-	 * The password to use when authenticating.
-	 */
-	@Parameter(property = "orientdb.password")
-	protected String password;
+    /**
+     * The password to use when authenticating.
+     */
+    @Parameter(property = "orientdb.password")
+    protected String password;
 
-	/**
-	 * Whether to bypass running orientdb.
-	 */
-	@Parameter(property = "orientdb.skip")
-	private boolean skip;
+    /**
+     * Whether to bypass running orientdb.
+     */
+    @Parameter(property = "orientdb.skip")
+    private boolean skip;
 
-	/**
-	 * Shared {@link OServer} instance for all mojos.
-	 */
-	protected OServer server;
+    /**
+     * Shared {@link OServer} instance for all mojos.
+     */
+    protected OServer server;
 
-	@Override
-	public void execute() throws MojoExecutionException, MojoFailureException
-	{
-		if (skip)
-		{
-			getLog().info("Skipping OrienDB execution.");
-			return;
-		}
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException
+    {
+        if (skip)
+        {
+            getLog().info("Skipping OrienDB execution.");
+            return;
+        }
 
-		setup();
+        setup();
 
-		doExecute();
-	}
+        doExecute();
+    }
 
-	protected void setup() throws MojoExecutionException
-	{
+    protected void setup() throws MojoExecutionException
+    {
 
-		try
-		{
-			server = OServerMain.server();
-			if (server == null)
-			{
-				server = OServerMain.create();
-			}
-		}
-		catch (Exception e)
-		{
-			throw new MojoExecutionException(e.getMessage(), e);
-		}
-	}
+        try
+        {
+            server = OServerMain.server();
+            if (server == null)
+            {
+                server = OServerMain.create();
+            }
+        }
+        catch (Exception e)
+        {
+            throw new MojoExecutionException(e.getMessage(), e);
+        }
+    }
 
-	/**
-	 * Implement mojo logic here.
-	 *
-	 * @throws MojoExecutionException
-	 * @throws MojoFailureException
-	 */
-	protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
+    /**
+     * Implement mojo logic here.
+     *
+     * @throws MojoExecutionException
+     * @throws MojoFailureException
+     */
+    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
-	public int getBinaryPort()
-	{
-		return binaryPort;
-	}
+    public int getBinaryPort()
+    {
+        return binaryPort;
+    }
 
-	public void setBinaryPort(int port)
-	{
-		this.binaryPort = port;
-	}
+    public void setBinaryPort(int port)
+    {
+        this.binaryPort = port;
+    }
 
-	public String getUsername()
-	{
-		return username;
-	}
+    public String getUsername()
+    {
+        return username;
+    }
 
-	public void setUsername(String username)
-	{
-		this.username = username;
-	}
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
 
-	public String getPassword()
-	{
-		return password;
-	}
+    public String getPassword()
+    {
+        return password;
+    }
 
-	public void setPassword(String password)
-	{
-		this.password = password;
-	}
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
 
-	public boolean isSkip()
-	{
-		return skip;
-	}
+    public boolean isSkip()
+    {
+        return skip;
+    }
 
-	public void setSkip(boolean skip)
-	{
-		this.skip = skip;
-	}
+    public void setSkip(boolean skip)
+    {
+        this.skip = skip;
+    }
 
-	public int getHttpPort()
-	{
-		return httpPort;
-	}
+    public int getHttpPort()
+    {
+        return httpPort;
+    }
 
-	public void setHttpPort(int httpPort)
-	{
-		this.httpPort = httpPort;
-	}
+    public void setHttpPort(int httpPort)
+    {
+        this.httpPort = httpPort;
+    }
 
-	public String getConfigurationPath()
-	{
-		return configurationFile;
-	}
+    public String getConfigurationPath()
+    {
+        return configurationFile;
+    }
 
-	public void setConfigurationPath(String configurationPath)
-	{
-		this.configurationFile = configurationPath;
-	}
+    public void setConfigurationPath(String configurationPath)
+    {
+        this.configurationFile = configurationPath;
+    }
 
 }
