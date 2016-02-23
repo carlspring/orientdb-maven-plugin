@@ -42,6 +42,17 @@ public class StopOrientDBMojo extends AbstractOrientDBMojo
 	@Override
 	public void doExecute() throws MojoExecutionException, MojoFailureException
 	{
+		if (server.isActive()) {
+			server.shutdown();
+		}
+		else {
+			sendShutdownSignal();
+		}
+		
+	}
+
+	private void sendShutdownSignal() throws MojoExecutionException
+	{
 		OServerShutdownMain shutdownMain = new OServerShutdownMain(ipAddress, String.valueOf(binaryPort), username,
 				password);
 		try
