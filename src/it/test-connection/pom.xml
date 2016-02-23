@@ -1,0 +1,69 @@
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.carlspring.maven.orientdb</groupId>
+    <artifactId>test-project</artifactId>
+    <version>1.0.1</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.carlspring.maven</groupId>
+            <artifactId>orientdb-maven-plugin</artifactId>
+            <version>@project.version@</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.carlspring.maven</groupId>
+                <artifactId>orientdb-maven-plugin</artifactId>
+                <version>@project.version@</version>
+
+                <executions>
+                    <execution>
+                        <id>orientdb-start</id>
+
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+
+                        <configuration>
+                            <configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml
+                            </configurationFile>
+                            <binaryPort>3015</binaryPort>
+                            <httpPort>3081</httpPort>
+                            <username>rootoo</username>
+                            <password>hello</password>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>orientdb-stop</id>
+
+                        <phase>test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+            </plugin>
+        </plugins>
+    </build>
+</project>
