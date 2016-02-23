@@ -1,32 +1,32 @@
 <project>
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.carlspring.maven.orientdb</groupId>
-	<artifactId>test-project</artifactId>
-	<version>1.0.1</version>
+    <groupId>org.carlspring.maven.orientdb</groupId>
+    <artifactId>test-project</artifactId>
+    <version>1.0.1</version>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.carlspring.maven</groupId>
-			<artifactId>orientdb-maven-plugin</artifactId>
-			<version>@project.version@</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.carlspring.maven</groupId>
+            <artifactId>orientdb-maven-plugin</artifactId>
+            <version>@project.version@</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>src/test/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
 		<plugins>
 			<plugin>
@@ -34,15 +34,14 @@
 				<artifactId>orientdb-maven-plugin</artifactId>
 				<version>@project.version@</version>
 
-				<executions>
-					<execution>
-						<id>orientdb-start</id>
+                <executions>
+                    <execution>
+                        <id>orientdb-start</id>
 
-						<phase>test-compile</phase>
-						<goals>
-							<goal>start</goal>
-						</goals>
-
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
 						<configuration>
 							<configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml</configurationFile>
 							<ipAddress>localhost</ipAddress>
@@ -53,17 +52,17 @@
 						</configuration>
 					</execution>
 
-					<execution>
-						<id>orientdb-stop</id>
+                    <execution>
+                        <id>orientdb-stop</id>
 
-						<phase>test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
 
-			</plugin>
-		</plugins>
-	</build>
+            </plugin>
+        </plugins>
+    </build>
 </project>
