@@ -27,17 +27,17 @@ Example usage:
                     <version>${version.orientdb.plugin}</version>
 
                     <configuration>
-                    	<!-- Optional, defaults is null -->
-                    	<configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml</configurationFile>
-                    	<!-- Optional, defaults to 0 -->
-					 	<binaryPort>3015</binaryPort>
-					 	<!-- Optional, defaults to 0 -->
-						<httpPort>3081</httpPort>
-						<!-- Optional, defaults to null -->
-						<username>rootoo</username>
-						<!-- Optional, defaults to null-->
-						<password>hello</password>
-                   		<!-- Whether to bypass running OrientDB.-->
+                        <!-- Optional, defaults is null -->
+                        <configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml</configurationFile>
+                        <!-- Optional, defaults to 0 -->
+                        <binaryPort>3015</binaryPort>
+                        <!-- Optional, defaults to 0 -->
+                        <httpPort>3081</httpPort>
+                        <!-- Optional, defaults to null -->
+                        <username>rootoo</username>
+                        <!-- Optional, defaults to null-->
+                        <password>hello</password>
+                        <!-- Whether to bypass running OrientDB.-->
                         <skip>false</skip>
                     </configuration>
 
@@ -66,17 +66,17 @@ Usage of the run goal, configure the plugin outside of the "execution" scope as 
                     <artifactId>orientdb-maven-plugin</artifactId>
                     <version>${version.orientdb.plugin}</version>
                     <configuration>
-						<!-- Optional, defaults is null -->
-                    	<configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml</configurationFile>
-                    	<!-- Optional, defaults to 0 -->
-					 	<binaryPort>3015</binaryPort>
-					 	<!-- Optional, defaults to 0 -->
-						<httpPort>3081</httpPort>
-						<!-- Optional, defaults to null -->
-						<username>rootoo</username>
-						<!-- Optional, defaults to null-->
-						<password>hello</password>
-                   		<!-- Whether to bypass running OrientDB.-->
+                        <!-- Optional, defaults is null -->
+                        <configurationFile>@project.build.testOutputDirectory@/orientdb-server-config.xml</configurationFile>
+                        <!-- Optional, defaults to 0 -->
+                        <binaryPort>3015</binaryPort>
+                        <!-- Optional, defaults to 0 -->
+                        <httpPort>3081</httpPort>
+                        <!-- Optional, defaults to null -->
+                        <username>rootoo</username>
+                        <!-- Optional, defaults to null-->
+                        <password>hello</password>
+                        <!-- Whether to bypass running OrientDB.-->
                         <skip>false</skip>
                     </configuration>
                     <executions>
