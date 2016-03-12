@@ -50,7 +50,6 @@ Example usage:
                             </goals>
                         </execution>
                     </executions>
-
                 </plugin>
             </plugins>
         </build>
