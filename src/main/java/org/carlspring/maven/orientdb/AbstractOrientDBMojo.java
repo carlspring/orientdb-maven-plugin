@@ -61,7 +61,7 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 	/**
 	 * The password to use when authenticating.
 	 */
-	@Parameter(property = "orientdb.password", defaultValue="hello")
+	@Parameter(property = "orientdb.password", defaultValue="password")
 	protected String password;
 
 	/**
@@ -75,12 +75,13 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 	 */
 	protected OServer server;
 
+
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException
 	{
 		if (skip)
 		{
-			getLog().info("Skipping OrienDB execution.");
+			getLog().info("Skipping OrientDB execution.");
 			return;
 		}
 
@@ -97,6 +98,8 @@ public abstract class AbstractOrientDBMojo extends AbstractMojo
 			if (server == null)
 			{
 				server = OServerMain.create();
+
+				System.setProperty("ORIENTDB_ROOT_PASSWORD", getPassword());
 			}
 		}
 		catch (Exception e)

@@ -37,10 +37,42 @@ import com.orientechnologies.orient.server.config.OServerUserConfiguration;
 @Mojo(name = "start", requiresProject = false)
 public class StartOrientDBMojo extends AbstractOrientDBMojo
 {
+
     private static final String BINARY_PORT_TOKEN = "${binary.port}";
+
     private static final String HTTP_PORT_TOKEN = "${http.port}";
+
     private static final String USERNAME_TOKEN = "${username}";
+
     private static final String PASSWORD_TOKEN = "${password}";
+
+    // private static final String CONFIGURATION_TOKEN = "${configurationFile}";
+
+    private String serverConfigTemplate = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+                                          "<orient-server>\n" +
+                                          "    <network>\n" +
+                                          "        <protocols>\n" +
+                                          "            <protocol name=\"binary\" implementation=\"com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary\"/>\n" +
+                                          "            <protocol name=\"http\" implementation=\"com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpDb\"/>\n" +
+                                          "        </protocols>\n" +
+                                          "        <listeners>\n" +
+                                          "            <listener ip-address=\"0.0.0.0\" port-range=\"${binary.port}\" protocol=\"binary\"/>\n" +
+                                          "            <listener ip-address=\"0.0.0.0\" port-range=\"${http.port}\" protocol=\"http\"/>\n" +
+                                          "        </listeners>\n" +
+                                          "    </network>\n" +
+                                          "    <users>\n" +
+                                          "        <user name=\"${username}\" password=\"${password}\" resources=\"*\"/>\n" +
+                                          "    </users>\n" +
+                                          "    <properties>\n" +
+                                          "        <entry name=\"server.database.path\" value=\"target/orientdb/db\"/>\n" +
+                                          "        <entry name=\"orientdb.www.path\" value=\"target/orientdb/www/\"/>\n" +
+                                          // "        <entry name=\"orientdb.config.file\" value=\"${configurationFile}\"/>\n" +
+                                          "        <entry name=\"server.cache.staticResources\" value=\"false\"/>\n" +
+                                          "        <entry name=\"log.console.level\" value=\"info\"/>\n" +
+                                          "        <entry name=\"log.file.level\" value=\"fine\"/>\n" +
+                                          "        <entry name=\"plugin.dynamic\" value=\"false\"/>\n" +
+                                          "    </properties>\n" +
+                                          "</orient-server>\n";
 
     /**
      * Whether to fail, if there's already something running on the port.
@@ -98,6 +130,7 @@ public class StartOrientDBMojo extends AbstractOrientDBMojo
                 {
                     pong = server.isActive();
                     sleepTime += 1000;
+
                     Thread.sleep(1000);
                 }
 
@@ -108,8 +141,8 @@ public class StartOrientDBMojo extends AbstractOrientDBMojo
                 else
                 {
                     getLog().info("OrientDB ping-pong: [FAILED]");
-                    throw new MojoFailureException("Failed to start the OServer."
-                                                   + " The server did not respond with a pong withing 60 seconds.");
+                    throw new MojoFailureException("Failed to start the OServer. " +
+                                                   "The server did not respond with a pong withing 60 seconds.");
                 }
             }
             else
@@ -133,7 +166,8 @@ public class StartOrientDBMojo extends AbstractOrientDBMojo
         this.failIfAlreadyRunning = failIfAlreadyRunning;
     }
 
-    private OServerConfiguration updateConfiguration() throws IOException
+    private OServerConfiguration updateConfiguration()
+            throws IOException
     {
         OServerConfigurationManager cfgManager = new OServerConfigurationManager(new File(configurationFile));
         OServerConfiguration configuration = cfgManager.getConfiguration();
@@ -152,46 +186,25 @@ public class StartOrientDBMojo extends AbstractOrientDBMojo
 
         if (username != null && password != null)
         {
-            configuration.users = new OServerUserConfiguration[]
-                    { new OServerUserConfiguration(username, password, "*") };
+            configuration.users = new OServerUserConfiguration[] { new OServerUserConfiguration(username, password, "*") };
         }
+
         return configuration;
     }
 
     private String doReplacements()
     {
-        serverConfigTemplate = serverConfigTemplate.replace(BINARY_PORT_TOKEN,
-                                                            String.valueOf(binaryPort) + "-" +
-                                                            String.valueOf(binaryPort) + 6);
-        serverConfigTemplate = serverConfigTemplate.replace(HTTP_PORT_TOKEN,
-                                                            String.valueOf(httpPort) + "-" +
-                                                            String.valueOf(binaryPort) + 10);
+        /*
+        serverConfigTemplate = serverConfigTemplate.replace(CONFIGURATION_TOKEN, configurationFile != null ?
+                                                                                 configurationFile : "target/orientdb/db");
+        */
+        serverConfigTemplate = serverConfigTemplate.replace(BINARY_PORT_TOKEN, String.valueOf(binaryPort) + "-" +
+                                                                               String.valueOf(binaryPort) + 6);
+        serverConfigTemplate = serverConfigTemplate.replace(HTTP_PORT_TOKEN, String.valueOf(httpPort) + "-" +
+                                                                             String.valueOf(binaryPort) + 10);
         serverConfigTemplate = serverConfigTemplate.replace(USERNAME_TOKEN, username);
+
         return serverConfigTemplate.replace(PASSWORD_TOKEN, password);
     }
 
-    private static String serverConfigTemplate = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                                                 + "<orient-server>" + "<network>" + "<protocols>"
-                                                 +
-                                                 "<protocol name=\"binary\" implementation=\"com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary\"/>"
-                                                 +
-                                                 "<protocol name=\"http\" implementation=\"com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpDb\"/>"
-                                                 + "</protocols>" + "<listeners>"
-                                                 +
-                                                 "<listener ip-address=\"0.0.0.0\" port-range=\"${binary.port}\" protocol=\"binary\"/>"
-                                                 +
-                                                 "<listener ip-address=\"0.0.0.0\" port-range=\"${http.port}\" protocol=\"http\"/>" +
-                                                 "</listeners>"
-                                                 + "</network>" + "<users>" +
-                                                 "<user name=\"${username}\" password=\"${password}\" resources=\"*\"/>"
-                                                 + "</users>" + "<properties>"
-                                                 +
-                                                 "<entry name=\"orientdb.www.path\" value=\"C:/work/dev/orientechnologies/orientdb/releases/1.0rc1-SNAPSHOT/www/\"/>"
-                                                 +
-                                                 "<entry name=\"orientdb.config.file\" value=\"C:/work/dev/orientechnologies/orientdb/releases/1.0rc1-SNAPSHOT/config/orientdb-server-config.xml\"/>"
-                                                 + "<entry name=\"server.cache.staticResources\" value=\"false\"/>"
-                                                 + "<entry name=\"log.console.level\" value=\"info\"/>" +
-                                                 "<entry name=\"log.file.level\" value=\"fine\"/>"
-                                                 + "<entry name=\"plugin.dynamic\" value=\"false\"/>" +
-                                                 "</properties>" + "</orient-server>";
 }
