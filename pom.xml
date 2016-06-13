@@ -10,7 +10,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 
-	<name>Maven OrientDB Plugin</name>
+	<name>OrientDB Maven Plugin</name>
 	<description>A plugin to start/stop a OrientDB.</description>
 
 	<url>https://github.com/carlspring/orientdb-maven-plugin</url>
