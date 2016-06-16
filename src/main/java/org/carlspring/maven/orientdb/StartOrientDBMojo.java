@@ -176,11 +176,11 @@ public class StartOrientDBMojo extends AbstractOrientDBMojo
         {
             if ("binary".equals(listener.protocol) && binaryPort != 0)
             {
-                listener.portRange = String.valueOf(binaryPort) + "-" + String.valueOf(binaryPort) + 6;
+                listener.portRange = binaryPort + "-" + binaryPort + 6;
             }
             else if ("http".equals(listener.protocol) && httpPort != 0)
             {
-                listener.portRange = String.valueOf(httpPort) + "-" + String.valueOf(httpPort) + 10;
+                listener.portRange = httpPort + "-" + httpPort + 10;
             }
         }
 
@@ -198,10 +198,10 @@ public class StartOrientDBMojo extends AbstractOrientDBMojo
         serverConfigTemplate = serverConfigTemplate.replace(CONFIGURATION_TOKEN, configurationFile != null ?
                                                                                  configurationFile : "target/orientdb/db");
         */
-        serverConfigTemplate = serverConfigTemplate.replace(BINARY_PORT_TOKEN, String.valueOf(binaryPort) + "-" +
-                                                                               String.valueOf(binaryPort) + 6);
-        serverConfigTemplate = serverConfigTemplate.replace(HTTP_PORT_TOKEN, String.valueOf(httpPort) + "-" +
-                                                                             String.valueOf(binaryPort) + 10);
+        serverConfigTemplate = serverConfigTemplate.replace(BINARY_PORT_TOKEN, binaryPort + "-" +
+                                                                               binaryPort + 6);
+        serverConfigTemplate = serverConfigTemplate.replace(HTTP_PORT_TOKEN, binaryPort + "-" +
+                                                                             binaryPort + 10);
         serverConfigTemplate = serverConfigTemplate.replace(USERNAME_TOKEN, username);
 
         return serverConfigTemplate.replace(PASSWORD_TOKEN, password);
