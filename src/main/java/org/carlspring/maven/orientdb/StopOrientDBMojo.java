@@ -65,7 +65,7 @@ public class StopOrientDBMojo extends AbstractOrientDBMojo
 			{
 				throw new MojoExecutionException("Failed to stop the OrientDB server, no server running!");
 			}
-			getLog().error("OrientDB server was already stopped.");
+			getLog().error("OrientDB server was already stopped.", e);
 			return;
 		}
 		getLog().info("OrientDB has stopped!");

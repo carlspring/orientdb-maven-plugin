@@ -52,7 +52,7 @@ public class RunOrientDBMojo extends StartOrientDBMojo
                 }
                 catch (InterruptedException e)
                 {
-                    e.printStackTrace();
+                    getLog().warn("InterruptedException: doExecute().", e);
                 }
             }
         }
