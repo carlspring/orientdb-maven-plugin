@@ -45,7 +45,7 @@
 		<password>hello</password>
 		<!-- OrientDB properties -->
 
-		<version.orientdb>2.2.0</version.orientdb>
+		<version.orientdb>2.2.23</version.orientdb>
 		<version.maven>3.3.9</version.maven>
 		<version.orientdb-maven-plugin>${project.version}</version.orientdb-maven-plugin>
 	</properties>
